@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
-    "create-user": "node test/createUser.js"
+    "create-user": "node seeders/createUser.js"
   },
   "keywords": [],
   "author": "",

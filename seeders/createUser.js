@@ -1,6 +1,6 @@
-const User = require('../shared/models/User');
 const bcrypt = require('bcryptjs');
 const { sequelize } = require('../config/database');
+const User = require('../shared/utils/User');
 
 const createTestUser = async () => {
   try {
