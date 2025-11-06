@@ -1,5 +1,5 @@
 const { generateToken } = require("../shared/utils/jwt");
-const User = require("../shared/utils/User");
+const User = require("../shared/models/User");
 const bcrypt = require("bcryptjs");
 
 const register = async (req, res) => {
@@ -68,7 +68,7 @@ const login = async (req, res) => {
       });
     }
 
-    const tokenJWT = generateToken({ userId: user.id, version: "v2" });
+    const tokenJWT = generateToken({ userId: user.id, version: "v1" });
 
     res.json({
       status: "success",

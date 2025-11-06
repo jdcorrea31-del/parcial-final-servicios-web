@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const { corsMiddleware } = require('./shared/middleware/cors');
 const { testConnection } = require('./config/database');
-const { syncModels } = require('./shared/utils');
+const { syncModels } = require('./shared/models');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
