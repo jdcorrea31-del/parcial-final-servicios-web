@@ -9,7 +9,7 @@ const sequelize = new Sequelize(
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     dialect: 'mysql',
-    logging: false, // Cambiar a true para ver las consultas SQL
+    logging: false,
     pool: {
       max: 5,
       min: 0,
@@ -19,18 +19,4 @@ const sequelize = new Sequelize(
   }
 );
 
-// Función para probar la conexión
-const testConnection = async () => {
-  try {
-    // await sequelize.sync({ force: true }); // para eliminar las tablas y crearlas de nuevo
-    await sequelize.authenticate();
-    console.log('Conexión a MySQL establecida correctamente');
-  } catch (error) {
-    console.error('Error al conectar con MySQL:', error);
-  }
-};
-
-module.exports = {
-  testConnection,
-  sequelize
-};
+module.exports = { sequelize };

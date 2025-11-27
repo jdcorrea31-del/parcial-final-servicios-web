@@ -1,44 +1,38 @@
-console.log("Mi primera app en express.js");
 require('dotenv').config();
 const express = require('express');
-const { corsMiddleware } = require('./shared/middleware/cors');
-const { testConnection } = require('./config/database');
-const { syncModels } = require('./shared/models');
-
+const cors = require("cors");
 const app = express();
-const PORT = process.env.PORT || 3001;
+const { sequelize } = require('./config/database');
+
+// CORS PERMITIR FRONTEND 5173
+app.use(cors({
+  origin: "http://localhost:5173",
+  methods: ["GET", "POST"],
+}));
 
 app.use(express.json());
-app.use(corsMiddleware);
 
-// Inicializar base de datos
-const initializeDatabase = async () => {
-  await testConnection();
-  await syncModels();
-};
+// IMPORTAR MODELOS
+require('./shared/models/User');
 
-app.get('/', (req, res) => {
-  console.log(`Sistema de login funcionando correctamente en el puerto ${PORT}`);
-  res.json({
-    message: '¡Hola! Express funcionando con MySQL',
-    timestamp: new Date().toISOString(),
-    status: 'success'
-  });
-});
+// Rutas
+app.use('/api', require('./routes/auth'));
 
-// Login
-app.use('/api/v1', require('./routes/auth'));
-
-// Inicializar servidor
-const startServer = async () => {
+async function startServer() {
   try {
-    await initializeDatabase();
-    app.listen(PORT, () => {
-      console.log(`Servidor en http://localhost:${PORT}`);
+    await sequelize.authenticate();
+    console.log("Conexión a MySQL establecida.");
+
+    await sequelize.sync();
+    console.log("Tablas sincronizadas.");
+
+    app.listen(process.env.PORT || 3001, () => {
+      console.log("Servidor iniciado en puerto", process.env.PORT);
     });
+
   } catch (error) {
-    console.error('Error al iniciar el servidor:', error);
+    console.error("Error al iniciar servidor:", error);
   }
-};
+}
 
 startServer();
