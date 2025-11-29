@@ -21,7 +21,7 @@ const register = async (req, res) => {
 
     // Crear nuevo usuario en la base de datos
     const newUser = await User.create({
-      name,
+      username,
       email,
       password: hashedPassword,
       
